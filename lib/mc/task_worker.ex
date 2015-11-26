@@ -17,4 +17,13 @@ defmodule MC.TaskWorker do
     false
   end
 
+  def duplicate?(state) do
+    key = state_key(state)
+     ! :ets.insert_new(:duplicate_check, {key, state})
+  end
+
+  def state_key({ boat, m, c }) do
+    to_string(boat) <> to_string(m) <> to_string(c)
+  end
+
 end
