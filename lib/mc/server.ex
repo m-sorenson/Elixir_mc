@@ -12,6 +12,7 @@ defmodule MC.Server do
   ## Sever Callbacks
   def init(_args) do
     IO.puts "MC.Server has started"
+     :ets.new(:duplicate_check, [:set, :public, :named_table, {:read_concurrency, true}])
     {:ok, %{}}
   end
 
