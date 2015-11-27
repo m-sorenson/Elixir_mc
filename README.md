@@ -1,10 +1,28 @@
 # MC
 
+Missionaries and Cannibals implementation in elixir.
+
 ## Installation
 
-MC.server can recieve __start__ through the observer interface.
+To generate docs, install dependencies by running
+  ```
+  mix deps.get
+  ```
+To generate documentation
+  ```
+  mix docs
+  ```
 
-Alternatively it can be started through iex by calling
-    ```
-    MC.start_state
-    ```
+
+## Running
+
+MC.server can receive __start__ through the observer interface.
+
+Alternatively it can be started inside iex by starting it with
+  ```
+  mix -S iex
+  ```
+And then calling the start state function
+  ```
+  iex(1)> MC.start_state
+  ```
