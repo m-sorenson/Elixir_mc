@@ -22,10 +22,16 @@ defmodule MC do
     Supervisor.start_link(children, opts)
   end
 
-  def create_worker(state) do
-    Task.Supervisor.start_child(@task_sup, fn -> MC.TaskWorker.start(state) end)
+  @doc """
+  Takes a path of states creates a new task to continue searching for solution.
+  """
+  def create_worker(path) do
+    Task.Supervisor.start_child(@task_sup, fn -> MC.TaskWorker.start(path) end)
   end
 
+  @doc """
+  Starts search by creating a task with the default start state.
+  """
   def start_state() do
     create_worker([{1, 3, 3}])
   end

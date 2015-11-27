@@ -5,6 +5,10 @@ defmodule MC.Server do
     GenServer.start_link(__MODULE__, {}, opts)
   end
 
+  @doc """
+  Casts message to the server having it display the path to the goal.
+  Also server stop itself to stop the task sup because of the one_for_one supvervision
+  """
   def found_goal(path) do
     GenServer.cast(__MODULE__, {:goal, path})
   end
