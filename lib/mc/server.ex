@@ -1,6 +1,8 @@
 defmodule MC.Server do
   use GenServer
 
+  @table_name :duplicate_check
+
   def start_link(opts \\ []) do
     GenServer.start_link(__MODULE__, {}, opts)
   end
@@ -16,7 +18,7 @@ defmodule MC.Server do
   ## Sever Callbacks
   def init(_args) do
     IO.puts "MC.Server has started"
-     :ets.new(:duplicate_check, [:set, :public, :named_table, {:read_concurrency, true}])
+     @table_name = :ets.new(@table_name, [:set, :public, :named_table, {:read_concurrency, true}])
     {:ok, %{}}
   end
 
@@ -27,7 +29,7 @@ defmodule MC.Server do
   end
 
   def handle_info(:start, state) do
-    MC.start_state
+    {:ok, _pid} = MC.start_state
     {:noreply, state}
   end
 
