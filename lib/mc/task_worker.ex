@@ -11,6 +11,7 @@ defmodule MC.TaskWorker do
     IO.inspect h
     IO.puts "Tail of list is "
     IO.inspect t
+    false = goal?(path)
   end
 
   @doc """
@@ -23,6 +24,11 @@ defmodule MC.TaskWorker do
   @doc """
   Tests if state is goal
   """
+  def goal?(path = [{-1, 0, 0} | _t]) do
+    MC.Server.found_goal(path)
+    true
+  end
+
   def goal?(_) do
     false
   end
