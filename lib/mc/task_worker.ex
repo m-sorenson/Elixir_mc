@@ -17,9 +17,24 @@ defmodule MC.TaskWorker do
   @doc """
   Takes a state and returns a boolean declaring if the state is valid.
   """
-  def valid?(_) do
-    false
+  def valid?(state = {_, m, c}) do
+		if safe?(state) and m >= 0 and m <= 3 and c >= 0 and c <= 3 do
+			true
+		else
+			false
+		end
   end
+
+	@doc """
+	Takes a state and returns a boolean declaring if the state is safe.
+	"""
+	def safe?({_, m, c}) do
+		if m == 0 or m == 3 or m == c do
+			true
+		else
+			false
+		end
+	end
 
   @doc """
   Tests if state is goal
