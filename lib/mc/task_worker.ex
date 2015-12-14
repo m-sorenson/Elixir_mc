@@ -4,14 +4,14 @@ defmodule MC.TaskWorker do
   Takes the full path as a parameter. Uses helper functions to continue the search
   to the goal.
   """
-  def start(path = [h|t]) do
-    IO.puts "Path is "
-    IO.inspect path
-    IO.puts "Head of list is "
-    IO.inspect h
-    IO.puts "Tail of list is "
-    IO.inspect t
+  def start(path = [state | _tail]) do
     false = goal?(path)
+    true = valid?(state)
+    false = duplicate?(state)
+
+    next_states(state) |>
+    Enum.map(fn next_state -> [ next_state | path ] end) |>
+    Enum.each(fn next_path -> MC.create_worker(next_path) end)
   end
 
   @doc """
@@ -62,6 +62,18 @@ defmodule MC.TaskWorker do
   """
   def state_key({ boat, m, c }) do
     to_string(boat) <> to_string(m) <> to_string(c)
+  end
+
+  @docs """
+  Takes current state and computes next states.
+  """
+  def next_states({b, m, c}) do
+    next_b = b * -1
+    [ {next_b, m + 2 * next_b, c},
+      {next_b, m, c + 2 * next_b},
+      {next_b, m + 1 * next_b, c + 1 * next_b},
+      {next_b, m + 1 * next_b, c},
+      {next_b, m, c + 1 * next_b} ]
   end
 
 end
