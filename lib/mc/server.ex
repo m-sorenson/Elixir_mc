@@ -9,10 +9,27 @@ defmodule MC.Server do
 
   @doc """
   Casts message to the server having it display the path to the goal.
-  Also server stop itself to stop the task sup because of the one_for_one supvervision
+  Also server stop itself to stop the task sup because of the one_for_all supvervision
   """
   def found_goal(path) do
     GenServer.cast(__MODULE__, {:goal, path})
+  end
+
+  @doc """
+  Takes the full path and pretty prints the solution.
+  """
+  def pretty_print([]) do
+    IO.puts "Initial state"
+  end
+
+  def pretty_print([{-1, m, c} | tail]) do
+    IO.puts "[ Far,  m = #{m}, c = #{c} ]"
+    pretty_print(tail)
+  end
+
+  def pretty_print([{1, m, c} | tail]) do
+    IO.puts "[ Near, m = #{m}, c = #{c} ]"
+    pretty_print(tail)
   end
 
   ## Sever Callbacks
@@ -24,7 +41,7 @@ defmodule MC.Server do
 
   def handle_cast({:goal, path}, state) do
     IO.puts "Goal was reached"
-    IO.inspect path
+    pretty_print(path)
     {:stop, path, state}
   end
 
