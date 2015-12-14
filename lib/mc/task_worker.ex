@@ -64,7 +64,7 @@ defmodule MC.TaskWorker do
     to_string(boat) <> to_string(m) <> to_string(c)
   end
 
-  @docs """
+  @doc """
   Takes current state and computes next states.
   """
   def next_states({b, m, c}) do
