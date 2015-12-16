@@ -23,13 +23,13 @@ defmodule MC.Server do
   end
 
   def pretty_print([{-1, m, c} | tail]) do
-    IO.puts "[ Far,  m = #{m}, c = #{c} ]"
     pretty_print(tail)
+    IO.puts "[ Far,  m = #{m}, c = #{c} ]"
   end
 
   def pretty_print([{1, m, c} | tail]) do
-    IO.puts "[ Near, m = #{m}, c = #{c} ]"
     pretty_print(tail)
+    IO.puts "[ Near, m = #{m}, c = #{c} ]"
   end
 
   ## Sever Callbacks
@@ -40,8 +40,8 @@ defmodule MC.Server do
   end
 
   def handle_cast({:goal, path}, state) do
-    IO.puts "Goal was reached"
     pretty_print(path)
+    IO.puts "Goal state"
     {:stop, path, state}
   end
 
