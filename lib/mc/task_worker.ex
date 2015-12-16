@@ -78,4 +78,12 @@ defmodule MC.TaskWorker do
       {next_b, m, c + 1 * next_b} ]
   end
 
+	@doc """
+	Hello Michael and Kevin, this is your Papa Pablo...
+	This returns true.	
+	"""
+	def truth_func() do
+		true
+	end
+
 end
