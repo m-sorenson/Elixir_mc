@@ -9,22 +9,22 @@ defmodule MC.TaskWorker do
     true = valid?(state)
     false = duplicate?(state)
 
-    next_states(state) |>
-    Enum.map(fn next_state -> [ next_state | path ] end) |>
-    Enum.each(fn next_path -> MC.create_worker(next_path) end)
+    next_states(state)
+    |> Enum.map(fn next_state -> [ next_state | path ] end)
+    |> Enum.each(fn next_path -> MC.Server.monitor_task(next_path) end)
   end
 
   @doc """
   Takes a state and returns a boolean declaring if the state is valid.
   """
   def valid?(state = {_, m, c}) when
-		m >= 0 and m <= 3 and c >= 0 and c <= 3 do
+    m >= 0 and m <= 3 and c >= 0 and c <= 3 do
     safe?(state)
   end
 
-	def valid?(_) do
-		false
-	end
+  def valid?(_) do
+    false
+  end
 
   @doc """
   Takes a state and returns a boolean declaring if the state is safe.
@@ -34,9 +34,9 @@ defmodule MC.TaskWorker do
     true
   end
 
-	def safe?(_) do
-		false
-	end
+  def safe?(_) do
+    false
+  end
 
   @doc """
   Tests if state is goal
