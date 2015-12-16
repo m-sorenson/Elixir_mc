@@ -9,9 +9,9 @@ defmodule MC.TaskWorker do
     true = valid?(state)
     false = duplicate?(state)
 
-    next_states(state) |>
-    Enum.map(fn next_state -> [ next_state | path ] end) |>
-    Enum.each(fn next_path -> MC.create_worker(next_path) end)
+    next_states(state)
+    |> Enum.map(fn next_state -> [ next_state | path ] end)
+    |> Enum.each(fn next_path -> MC.Server.monitor_task(next_path) end)
   end
 
   @doc """
